@@ -146,6 +146,8 @@ def process_results(_data):
             len(v["usageStats"].keys()), res_dict["secrets"][k]["sinqRisk"]))
         for a, c in v["usageStats"].items():
             print("     Identity {} retrieved the secret value {} times".format(a, c))
+    # The following line will sort the secrets by the calculated risk (desc), but only after printout. Should refactor.
+    res_dict["secrets"] = sorted(res_dict["secrets"].items(), key=lambda x:x[1]["sinqRisk"], reverse=True)
     res_dict["exceptions"] = _data.exceptions
     with open("output.json", "w") as fh:
         fh.write(json.dumps(res_dict, default=serialize_datetime, indent=3))
