@@ -115,7 +115,7 @@ def get_events(data_obj, events_days_ago, _logger):
             _logger.debug("DEBUG- Got GetSecretValue Events Page. First Event Time: {}, Next Token: {}.".format(
                 page["Events"][0]["EventTime"],
                 page.get("NextToken", "Last Page!")))
-            print("Collecting GetSecretValue events. Remaining events time: {} hours".format(
+            print("Collecting GetSecretValue events. Retrieved events from {} hours ago.".format(
                 str(round((page["Events"][0]["EventTime"].astimezone(datetime.timezone.utc).replace(
                     tzinfo=None) - start_time).total_seconds() / 3600))), end="\r")
             data_obj.proc_events_page(page)
