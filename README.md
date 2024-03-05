@@ -12,4 +12,4 @@ The tool prints our basic results to screen and generates a detailed JSON output
 
 ---
 
-payton3 s
+python3 sinq-aws.py --profile sinq_admin --region us-east-1 --days-ago 30

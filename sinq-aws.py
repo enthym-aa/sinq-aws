@@ -38,7 +38,7 @@ class GlobalDataClass:
                     self.secrets[secret_id]["usageStats"][user_name] += 1
                     self.metacounter["events"] += 1
                 else:
-                    self.exceptions[event["unlisted_secretid_events"]][user_name].append(event)
+                    self.exceptions["unlisted_secretid_events"][user_name].append(event)
         self.metacounter["pages"] += 1
 
     def validate_count(self):
