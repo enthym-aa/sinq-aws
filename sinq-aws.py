@@ -14,6 +14,7 @@ import boto3
 class GlobalDataClass:
     def __init__(self, _logger):
         # Globals
+        self.ids = defaultdict(lambda: defaultdict(int))
         self.secrets = defaultdict(dict)
         self.metacounter = {"pages": 0, "events": 0, "exceptions": 0}
         self.logger = _logger
@@ -34,6 +35,7 @@ class GlobalDataClass:
                 self.metacounter["exceptions"] += 1
             else:
                 secret_id = self.__get_secret_id_from_event(event)
+                self.ids[user_name][secret_id] += 1
                 if secret_id in self.secrets.keys():
                     self.secrets[secret_id]["usageStats"][user_name] += 1
                     self.metacounter["events"] += 1
@@ -147,6 +149,7 @@ def process_results(_data):
         for a, c in v["usageStats"].items():
             print("     Identity {} retrieved the secret value {} times".format(a, c))
     # The following line will sort the secrets by the calculated risk (desc), but only after printout. Should refactor.
+    res_dict["ids"] = dict(sorted(_data.ids.items(), key=lambda x:len(x[1]), reverse=True))
     res_dict["secrets"] = dict(sorted(res_dict["secrets"].items(), key=lambda x:x[1]["sinqRisk"], reverse=True))
     res_dict["exceptions"] = _data.exceptions
     with open("output.json", "w") as fh:
